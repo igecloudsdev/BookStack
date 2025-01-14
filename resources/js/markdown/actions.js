@@ -1,4 +1,4 @@
-import * as DrawIO from '../services/drawio';
+import * as DrawIO from '../services/drawio.ts';
 
 export class Actions {
 
@@ -73,7 +73,12 @@ export class Actions {
             const selectedText = selectionText || entity.name;
             const newText = `[${selectedText}](${entity.link})`;
             this.#replaceSelection(newText, newText.length, selectionRange);
-        }, selectionText);
+        }, {
+            initialValue: selectionText,
+            searchEndpoint: '/search/entity-selector',
+            entityTypes: 'page,book,chapter,bookshelf',
+            entityPermission: 'view',
+        });
     }
 
     // Show draw.io if enabled and handle save.
@@ -440,8 +445,12 @@ export class Actions {
         selectionRange = selectionRange || this.#getSelectionRange();
         const newDoc = this.editor.cm.state.toText(text);
         const newSelectFrom = Math.min(selectionRange.from, newDoc.length);
+        const scrollTop = this.editor.cm.scrollDOM.scrollTop;
         this.#dispatchChange(0, this.editor.cm.state.doc.length, text, newSelectFrom);
         this.focus();
+        window.requestAnimationFrame(() => {
+            this.editor.cm.scrollDOM.scrollTop = scrollTop;
+        });
     }
 
     /**

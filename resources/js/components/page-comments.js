@@ -1,5 +1,6 @@
 import {Component} from './component';
-import {getLoading, htmlToDom} from '../services/dom';
+import {getLoading, htmlToDom} from '../services/dom.ts';
+import {buildForInput} from '../wysiwyg-tinymce/config';
 
 export class PageComments extends Component {
 
@@ -21,6 +22,11 @@ export class PageComments extends Component {
         this.hideFormButton = this.$refs.hideFormButton;
         this.removeReplyToButton = this.$refs.removeReplyToButton;
 
+        // WYSIWYG options
+        this.wysiwygLanguage = this.$opts.wysiwygLanguage;
+        this.wysiwygTextDirection = this.$opts.wysiwygTextDirection;
+        this.wysiwygEditor = null;
+
         // Translations
         this.createdText = this.$opts.createdText;
         this.countText = this.$opts.countText;
@@ -34,7 +40,7 @@ export class PageComments extends Component {
 
     setupListeners() {
         this.elem.addEventListener('page-comment-delete', () => {
-            this.updateCount();
+            setTimeout(() => this.updateCount(), 1);
             this.hideForm();
         });
 
@@ -59,15 +65,20 @@ export class PageComments extends Component {
         this.form.after(loading);
         this.form.toggleAttribute('hidden', true);
 
-        const text = this.formInput.value;
         const reqData = {
-            text,
+            html: this.wysiwygEditor.getContent(),
             parent_id: this.parentId || null,
         };
 
         window.$http.post(`/comment/${this.pageId}`, reqData).then(resp => {
             const newElem = htmlToDom(resp.data);
-            this.formContainer.after(newElem);
+
+            if (reqData.parent_id) {
+                this.formContainer.after(newElem);
+            } else {
+                this.container.append(newElem);
+            }
+
             window.$events.success(this.createdText);
             this.hideForm();
             this.updateCount();
@@ -82,10 +93,11 @@ export class PageComments extends Component {
 
     updateCount() {
         const count = this.getCommentCount();
-        this.commentsTitle.textContent = window.trans_plural(this.countText, count, {count});
+        this.commentsTitle.textContent = window.$trans.choice(this.countText, count, {count});
     }
 
     resetForm() {
+        this.removeEditor();
         this.formInput.value = '';
         this.parentId = null;
         this.replyToRow.toggleAttribute('hidden', true);
@@ -93,12 +105,11 @@ export class PageComments extends Component {
     }
 
     showForm() {
+        this.removeEditor();
         this.formContainer.toggleAttribute('hidden', false);
         this.addButtonContainer.toggleAttribute('hidden', true);
         this.formContainer.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-        setTimeout(() => {
-            this.formInput.focus();
-        }, 100);
+        this.loadEditor();
     }
 
     hideForm() {
@@ -110,6 +121,34 @@ export class PageComments extends Component {
             this.commentCountBar.append(this.addButtonContainer);
         }
         this.addButtonContainer.toggleAttribute('hidden', false);
+    }
+
+    loadEditor() {
+        if (this.wysiwygEditor) {
+            this.wysiwygEditor.focus();
+            return;
+        }
+
+        const config = buildForInput({
+            language: this.wysiwygLanguage,
+            containerElement: this.formInput,
+            darkMode: document.documentElement.classList.contains('dark-mode'),
+            textDirection: this.wysiwygTextDirection,
+            translations: {},
+            translationMap: window.editor_translations,
+        });
+
+        window.tinymce.init(config).then(editors => {
+            this.wysiwygEditor = editors[0];
+            setTimeout(() => this.wysiwygEditor.focus(), 50);
+        });
+    }
+
+    removeEditor() {
+        if (this.wysiwygEditor) {
+            this.wysiwygEditor.remove();
+            this.wysiwygEditor = null;
+        }
     }
 
     getCommentCount() {

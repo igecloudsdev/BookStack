@@ -84,6 +84,14 @@ return [
     'webhook_delete' => 'usunął webhook',
     'webhook_delete_notification' => 'Webhook usunięty pomyślnie',
 
+    // Imports
+    'import_create' => 'created import',
+    'import_create_notification' => 'Import successfully uploaded',
+    'import_run' => 'updated import',
+    'import_run_notification' => 'Content successfully imported',
+    'import_delete' => 'deleted import',
+    'import_delete_notification' => 'Import successfully deleted',
+
     // Users
     'user_create' => 'utworzył użytkownika',
     'user_create_notification' => 'Użytkownik utworzony pomyślnie',
@@ -93,11 +101,11 @@ return [
     'user_delete_notification' => 'Użytkownik pomyślnie usunięty',
 
     // API Tokens
-    'api_token_create' => 'utworzył token api',
+    'api_token_create' => 'utworzył token API',
     'api_token_create_notification' => 'Token API został poprawnie utworzony',
-    'api_token_update' => 'zaktualizował token api',
+    'api_token_update' => 'zaktualizował token API',
     'api_token_update_notification' => 'Token API został pomyślnie zaktualizowany',
-    'api_token_delete' => 'usunął token api',
+    'api_token_delete' => 'usunął token API',
     'api_token_delete_notification' => 'Token API został pomyślnie usunięty',
 
     // Roles

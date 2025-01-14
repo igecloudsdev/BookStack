@@ -15,7 +15,7 @@ return [
     'page_restore'                => 'gendannede side',
     'page_restore_notification'   => 'Siden blev gendannet',
     'page_move'                   => 'flyttede side',
-    'page_move_notification'      => 'Page successfully moved',
+    'page_move_notification'      => 'Siden blev flyttet',
 
     // Chapters
     'chapter_create'              => 'oprettede kapitel',
@@ -25,7 +25,7 @@ return [
     'chapter_delete'              => 'slettede kapitel',
     'chapter_delete_notification' => 'Kapitel blev slettet',
     'chapter_move'                => 'flyttede kapitel',
-    'chapter_move_notification' => 'Chapter successfully moved',
+    'chapter_move_notification' => 'Kapitlet blev flyttet',
 
     // Books
     'book_create'                 => 'oprettede bog',
@@ -40,19 +40,19 @@ return [
     'book_sort_notification'      => 'Bogen blev re-sorteret',
 
     // Bookshelves
-    'bookshelf_create'            => 'created shelf',
-    'bookshelf_create_notification'    => 'Shelf successfully created',
-    'bookshelf_create_from_book'    => 'converted book to shelf',
+    'bookshelf_create'            => 'oprettede reol',
+    'bookshelf_create_notification'    => 'Reolen blev oprettet',
+    'bookshelf_create_from_book'    => 'omdannede bog til reol',
     'bookshelf_create_from_book_notification'    => 'Bogen blev omdannet til en bogreal',
-    'bookshelf_update'                 => 'updated shelf',
-    'bookshelf_update_notification'    => 'Shelf successfully updated',
-    'bookshelf_delete'                 => 'deleted shelf',
-    'bookshelf_delete_notification'    => 'Shelf successfully deleted',
+    'bookshelf_update'                 => 'opdaterede reolen',
+    'bookshelf_update_notification'    => 'Reolen blev opdateret',
+    'bookshelf_delete'                 => 'slettede reol',
+    'bookshelf_delete_notification'    => 'Reolen blev slettet',
 
     // Revisions
-    'revision_restore' => 'restored revision',
-    'revision_delete' => 'deleted revision',
-    'revision_delete_notification' => 'Revision successfully deleted',
+    'revision_restore' => 'gendannede version',
+    'revision_delete' => 'slettede version',
+    'revision_delete_notification' => 'Versionen blev slettet',
 
     // Favourites
     'favourite_add_notification' => '":name" er blevet tilføjet til dine favoritter',
@@ -62,18 +62,18 @@ return [
     'watch_update_level_notification' => 'Watch preferences successfully updated',
 
     // Auth
-    'auth_login' => 'logged in',
-    'auth_register' => 'registered as new user',
+    'auth_login' => 'loggede ind',
+    'auth_register' => 'registreret som ny bruger',
     'auth_password_reset_request' => 'requested user password reset',
-    'auth_password_reset_update' => 'reset user password',
-    'mfa_setup_method' => 'configured MFA method',
+    'auth_password_reset_update' => 'nulstil adgangskode',
+    'mfa_setup_method' => 'konfigureret MFA metode',
     'mfa_setup_method_notification' => 'Multi-faktor metode konfigureret',
-    'mfa_remove_method' => 'removed MFA method',
+    'mfa_remove_method' => 'fjernet MFA metode',
     'mfa_remove_method_notification' => 'Multi-faktor metode fjernet',
 
     // Settings
-    'settings_update' => 'updated settings',
-    'settings_update_notification' => 'Settings successfully updated',
+    'settings_update' => 'opdaterede indstillinger',
+    'settings_update_notification' => 'Indstillinger opdateret',
     'maintenance_action_run' => 'ran maintenance action',
 
     // Webhooks
@@ -84,29 +84,37 @@ return [
     'webhook_delete' => 'slettede webhooken',
     'webhook_delete_notification' => 'Webhooken blev slettet',
 
+    // Imports
+    'import_create' => 'created import',
+    'import_create_notification' => 'Import successfully uploaded',
+    'import_run' => 'updated import',
+    'import_run_notification' => 'Content successfully imported',
+    'import_delete' => 'deleted import',
+    'import_delete_notification' => 'Import successfully deleted',
+
     // Users
-    'user_create' => 'created user',
-    'user_create_notification' => 'User successfully created',
-    'user_update' => 'updated user',
+    'user_create' => 'opret bruger',
+    'user_create_notification' => 'Bruger oprettet korrekt',
+    'user_update' => 'opdateret bruger',
     'user_update_notification' => 'Brugeren blev opdateret',
-    'user_delete' => 'deleted user',
+    'user_delete' => 'slettet bruger',
     'user_delete_notification' => 'Brugeren blev fjernet',
 
     // API Tokens
-    'api_token_create' => 'created api token',
+    'api_token_create' => 'oprettet API token',
     'api_token_create_notification' => 'API token successfully created',
-    'api_token_update' => 'updated api token',
+    'api_token_update' => 'updated API token',
     'api_token_update_notification' => 'API token successfully updated',
-    'api_token_delete' => 'deleted api token',
+    'api_token_delete' => 'deleted API token',
     'api_token_delete_notification' => 'API token successfully deleted',
 
     // Roles
-    'role_create' => 'created role',
-    'role_create_notification' => 'Role successfully created',
-    'role_update' => 'updated role',
-    'role_update_notification' => 'Role successfully updated',
-    'role_delete' => 'deleted role',
-    'role_delete_notification' => 'Role successfully deleted',
+    'role_create' => 'oprettet rolle',
+    'role_create_notification' => 'Rolle oprettet',
+    'role_update' => 'opdateret rolle',
+    'role_update_notification' => 'Rolle opdateret',
+    'role_delete' => 'slettet rolle',
+    'role_delete_notification' => 'Rollen blev slettet',
 
     // Recycle Bin
     'recycle_bin_empty' => 'emptied recycle bin',

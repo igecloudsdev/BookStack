@@ -2,7 +2,7 @@
 
 namespace BookStack\Theming;
 
-use BookStack\Access\SocialAuthService;
+use BookStack\Access\SocialDriverManager;
 use BookStack\Exceptions\ThemeException;
 use Illuminate\Console\Application;
 use Illuminate\Console\Application as Artisan;
@@ -14,6 +14,15 @@ class ThemeService
      * @var array<string, callable[]>
      */
     protected array $listeners = [];
+
+    /**
+     * Get the currently configured theme.
+     * Returns an empty string if not configured.
+     */
+    public function getTheme(): string
+    {
+        return config('view.theme') ?? '';
+    }
 
     /**
      * Listen to a given custom theme event,
@@ -49,6 +58,14 @@ class ThemeService
     }
 
     /**
+     * Check if there are listeners registered for the given event name.
+     */
+    public function hasListeners(string $event): bool
+    {
+        return count($this->listeners[$event] ?? []) > 0;
+    }
+
+    /**
      * Register a new custom artisan command to be available.
      */
     public function registerCommand(Command $command): void
@@ -74,11 +91,11 @@ class ThemeService
     }
 
     /**
-     * @see SocialAuthService::addSocialDriver
+     * @see SocialDriverManager::addSocialDriver
      */
     public function addSocialDriver(string $driverName, array $config, string $socialiteHandler, callable $configureForRedirect = null): void
     {
-        $socialAuthService = app()->make(SocialAuthService::class);
-        $socialAuthService->addSocialDriver($driverName, $config, $socialiteHandler, $configureForRedirect);
+        $driverManager = app()->make(SocialDriverManager::class);
+        $driverManager->addSocialDriver($driverName, $config, $socialiteHandler, $configureForRedirect);
     }
 }

@@ -84,6 +84,14 @@ return [
     'webhook_delete' => 'изтрита уебкука',
     'webhook_delete_notification' => 'Уебкуката е изтрита успешно',
 
+    // Imports
+    'import_create' => 'created import',
+    'import_create_notification' => 'Import successfully uploaded',
+    'import_run' => 'updated import',
+    'import_run_notification' => 'Content successfully imported',
+    'import_delete' => 'deleted import',
+    'import_delete_notification' => 'Import successfully deleted',
+
     // Users
     'user_create' => 'created user',
     'user_create_notification' => 'User successfully created',
@@ -93,11 +101,11 @@ return [
     'user_delete_notification' => 'Потребителят е премахнат успешно',
 
     // API Tokens
-    'api_token_create' => 'created api token',
+    'api_token_create' => 'created API token',
     'api_token_create_notification' => 'API token successfully created',
-    'api_token_update' => 'updated api token',
+    'api_token_update' => 'updated API token',
     'api_token_update_notification' => 'API token successfully updated',
-    'api_token_delete' => 'deleted api token',
+    'api_token_delete' => 'deleted API token',
     'api_token_delete_notification' => 'API token successfully deleted',
 
     // Roles

@@ -84,6 +84,14 @@ return [
     'webhook_delete' => 'gelöschter Webhook',
     'webhook_delete_notification' => 'Webhook erfolgreich gelöscht',
 
+    // Imports
+    'import_create' => 'erstellter Import',
+    'import_create_notification' => 'Import erfolgreich hochgeladen',
+    'import_run' => 'aktualisierter Import',
+    'import_run_notification' => 'Inhalt erfolgreich importiert',
+    'import_delete' => 'gelöschter Import',
+    'import_delete_notification' => 'Import erfolgreich gelöscht',
+
     // Users
     'user_create' => 'hat Benutzer erzeugt:',
     'user_create_notification' => 'Benutzer erfolgreich erstellt',
@@ -93,11 +101,11 @@ return [
     'user_delete_notification' => 'Benutzer erfolgreich entfernt',
 
     // API Tokens
-    'api_token_create' => 'hat API-Token erzeugt:',
+    'api_token_create' => 'API Token wurde erstellt',
     'api_token_create_notification' => 'API-Token erfolgreich erstellt',
-    'api_token_update' => 'hat API-Token aktualisiert:',
+    'api_token_update' => 'API Token wurde aktualisiert',
     'api_token_update_notification' => 'API-Token erfolgreich aktualisiert',
-    'api_token_delete' => 'hat API-Token gelöscht:',
+    'api_token_delete' => 'API Token gelöscht',
     'api_token_delete_notification' => 'API-Token erfolgreich gelöscht',
 
     // Roles

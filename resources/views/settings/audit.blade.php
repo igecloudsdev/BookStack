@@ -16,7 +16,7 @@
                     <input type="hidden" name="{{ $key }}" value="{{ $val }}">
                 @endforeach
 
-                <div component="dropdown" class="list-sort-type dropdown-container">
+                <div component="dropdown" class="list-sort-type dropdown-container relative">
                     <label for="">{{ trans('settings.audit_event_filter') }}</label>
                     <button refs="dropdown@toggle"
                             type="button"
@@ -94,8 +94,8 @@
                                     class="mr-xs hide-over-m">{{ trans('settings.audit_table_event') }}
                                 :</strong> {{ $activity->type }}</div>
                         <div class="flex-3 px-m py-xxs min-width-l">
-                            @if($activity->entity)
-                                @include('entities.icon-link', ['entity' => $activity->entity])
+                            @if($activity->loggable instanceof \BookStack\Entities\Models\Entity)
+                                @include('entities.icon-link', ['entity' => $activity->loggable])
                             @elseif($activity->detail && $activity->isForEntity())
                                 <div>
                                     {{ trans('settings.audit_deleted_item') }} <br>

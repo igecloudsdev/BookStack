@@ -84,6 +84,14 @@ return [
     'webhook_delete' => 'a șters webhook',
     'webhook_delete_notification' => 'Webhook șters cu succes',
 
+    // Imports
+    'import_create' => 'created import',
+    'import_create_notification' => 'Import successfully uploaded',
+    'import_run' => 'updated import',
+    'import_run_notification' => 'Content successfully imported',
+    'import_delete' => 'deleted import',
+    'import_delete_notification' => 'Import successfully deleted',
+
     // Users
     'user_create' => 'utilizator creat',
     'user_create_notification' => 'Utilizator creat cu succes',
@@ -93,11 +101,11 @@ return [
     'user_delete_notification' => 'Utilizator eliminat cu succes',
 
     // API Tokens
-    'api_token_create' => 'token api creat',
+    'api_token_create' => 'created API token',
     'api_token_create_notification' => 'Token API creat cu succes',
-    'api_token_update' => 'token api actualizat',
+    'api_token_update' => 'updated API token',
     'api_token_update_notification' => 'Token API actualizat cu succes',
-    'api_token_delete' => 'token api șters',
+    'api_token_delete' => 'deleted API token',
     'api_token_delete_notification' => 'Token API șters cu succes',
 
     // Roles

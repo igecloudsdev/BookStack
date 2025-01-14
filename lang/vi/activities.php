@@ -84,8 +84,16 @@ return [
     'webhook_delete' => 'đã xóa webhook',
     'webhook_delete_notification' => 'Webhook đã được xóa thành công',
 
+    // Imports
+    'import_create' => 'created import',
+    'import_create_notification' => 'Import successfully uploaded',
+    'import_run' => 'updated import',
+    'import_run_notification' => 'Content successfully imported',
+    'import_delete' => 'deleted import',
+    'import_delete_notification' => 'Import successfully deleted',
+
     // Users
-    'user_create' => 'người dùng đã tạo',
+    'user_create' => 'đã tạo người dùng',
     'user_create_notification' => 'Người dùng được tạo thành công',
     'user_update' => 'người dùng được cập nhật',
     'user_update_notification' => 'Người dùng được cập nhật thành công',
@@ -93,11 +101,11 @@ return [
     'user_delete_notification' => 'Người dùng đã được xóa thành công',
 
     // API Tokens
-    'api_token_create' => 'created api token',
+    'api_token_create' => 'created API token',
     'api_token_create_notification' => 'API token successfully created',
-    'api_token_update' => 'updated api token',
+    'api_token_update' => 'updated API token',
     'api_token_update_notification' => 'API token successfully updated',
-    'api_token_delete' => 'deleted api token',
+    'api_token_delete' => 'deleted API token',
     'api_token_delete_notification' => 'API token successfully deleted',
 
     // Roles

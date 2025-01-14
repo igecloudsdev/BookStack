@@ -4,13 +4,14 @@ namespace BookStack\Activity\Models;
 
 use BookStack\App\Model;
 use BookStack\Users\Models\HasCreatorAndUpdater;
+use BookStack\Util\HtmlContentFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property int      $id
- * @property string   $text
+ * @property string   $text - Deprecated & now unused (#4821)
  * @property string   $html
  * @property int|null $parent_id  - Relates to local_id, not id
  * @property int      $local_id
@@ -24,8 +25,7 @@ class Comment extends Model implements Loggable
     use HasFactory;
     use HasCreatorAndUpdater;
 
-    protected $fillable = ['text', 'parent_id'];
-    protected $appends = ['created', 'updated'];
+    protected $fillable = ['parent_id'];
 
     /**
      * Get the entity that this comment belongs to.
@@ -53,24 +53,13 @@ class Comment extends Model implements Loggable
         return $this->updated_at->timestamp > $this->created_at->timestamp;
     }
 
-    /**
-     * Get created date as a relative diff.
-     */
-    public function getCreatedAttribute(): string
-    {
-        return $this->created_at->diffForHumans();
-    }
-
-    /**
-     * Get updated date as a relative diff.
-     */
-    public function getUpdatedAttribute(): string
-    {
-        return $this->updated_at->diffForHumans();
-    }
-
     public function logDescriptor(): string
     {
         return "Comment #{$this->local_id} (ID: {$this->id}) for {$this->entity_type} (ID: {$this->entity_id})";
+    }
+
+    public function safeHtml(): string
+    {
+        return HtmlContentFilter::removeScriptsFromHtmlString($this->html ?? '');
     }
 }

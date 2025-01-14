@@ -78,7 +78,7 @@ class ThemeTest extends TestCase
 
         $page = $this->entities->page();
         $content = new PageContent($page);
-        $content->setNewMarkdown('# test');
+        $content->setNewMarkdown('# test', $this->users->editor());
 
         $this->assertTrue($callbackCalled);
     }
@@ -178,6 +178,43 @@ class ThemeTest extends TestCase
         $this->assertInstanceOf(User::class, $args[1]);
     }
 
+    public function test_event_auth_pre_register()
+    {
+        $args = [];
+        $callback = function (...$eventArgs) use (&$args) {
+            $args = $eventArgs;
+        };
+        Theme::listen(ThemeEvents::AUTH_PRE_REGISTER, $callback);
+        $this->setSettings(['registration-enabled' => 'true']);
+
+        $user = User::factory()->make();
+        $this->post('/register', ['email' => $user->email, 'name' => $user->name, 'password' => 'password']);
+
+        $this->assertCount(2, $args);
+        $this->assertEquals('standard', $args[0]);
+        $this->assertEquals([
+            'email' => $user->email,
+            'name' => $user->name,
+            'password' => 'password',
+        ], $args[1]);
+        $this->assertDatabaseHas('users', ['email' => $user->email]);
+    }
+
+    public function test_event_auth_pre_register_with_false_return_blocks_registration()
+    {
+        $callback = function () {
+            return false;
+        };
+        Theme::listen(ThemeEvents::AUTH_PRE_REGISTER, $callback);
+        $this->setSettings(['registration-enabled' => 'true']);
+
+        $user = User::factory()->make();
+        $resp = $this->post('/register', ['email' => $user->email, 'name' => $user->name, 'password' => 'password']);
+        $resp->assertRedirect('/login');
+        $this->assertSessionError('User account could not be registered for the provided details');
+        $this->assertDatabaseMissing('users', ['email' => $user->email]);
+    }
+
     public function test_event_webhook_call_before()
     {
         $args = [];
@@ -254,6 +291,40 @@ class ThemeTest extends TestCase
         $this->assertTrue($args[3] instanceof Page);
         $this->assertEquals($page->id, $args[2]->id);
         $this->assertEquals($otherPage->id, $args[3]->id);
+    }
+
+    public function test_event_routes_register_web_and_web_auth()
+    {
+        $functionsContent = <<<'END'
+<?php
+use BookStack\Theming\ThemeEvents;
+use BookStack\Facades\Theme;
+use Illuminate\Routing\Router;
+Theme::listen(ThemeEvents::ROUTES_REGISTER_WEB, function (Router $router) {
+    $router->get('/cat', fn () => 'cat')->name('say.cat');
+});
+Theme::listen(ThemeEvents::ROUTES_REGISTER_WEB_AUTH, function (Router $router) {
+    $router->get('/dog', fn () => 'dog')->name('say.dog');
+});
+END;
+
+        $this->usingThemeFolder(function () use ($functionsContent) {
+
+            $functionsFile = theme_path('functions.php');
+            file_put_contents($functionsFile, $functionsContent);
+
+            $app = $this->createApplication();
+            /** @var \Illuminate\Routing\Router $router */
+            $router = $app->get('router');
+
+            /** @var \Illuminate\Routing\Route $catRoute */
+            $catRoute = $router->getRoutes()->getRoutesByName()['say.cat'];
+            $this->assertEquals(['web'], $catRoute->middleware());
+
+            /** @var \Illuminate\Routing\Route $dogRoute */
+            $dogRoute = $router->getRoutes()->getRoutesByName()['say.dog'];
+            $this->assertEquals(['web', 'auth'], $dogRoute->middleware());
+        });
     }
 
     public function test_add_social_driver()
@@ -377,6 +448,47 @@ class ThemeTest extends TestCase
             $this->setSettings(['registration-enabled' => 'true']);
 
             $this->get('/login')->assertSee($content);
+        });
+    }
+
+    public function test_custom_settings_category_page_can_be_added_via_view_file()
+    {
+        $content = 'My SuperCustomSettings';
+
+        $this->usingThemeFolder(function (string $folder) use ($content) {
+            $viewDir = theme_path('settings/categories');
+            mkdir($viewDir, 0777, true);
+            file_put_contents($viewDir . '/beans.blade.php', $content);
+
+            $this->asAdmin()->get('/settings/beans')->assertSee($content);
+        });
+    }
+
+    public function test_public_folder_contents_accessible_via_route()
+    {
+        $this->usingThemeFolder(function (string $themeFolderName) {
+            $publicDir = theme_path('public');
+            mkdir($publicDir, 0777, true);
+
+            $text = 'some-text ' . md5(random_bytes(5));
+            $css = "body { background-color: tomato !important; }";
+            file_put_contents("{$publicDir}/file.txt", $text);
+            file_put_contents("{$publicDir}/file.css", $css);
+            copy($this->files->testFilePath('test-image.png'), "{$publicDir}/image.png");
+
+            $resp = $this->asAdmin()->get("/theme/{$themeFolderName}/file.txt");
+            $resp->assertStreamedContent($text);
+            $resp->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
+            $resp->assertHeader('Cache-Control', 'max-age=86400, private');
+
+            $resp = $this->asAdmin()->get("/theme/{$themeFolderName}/image.png");
+            $resp->assertHeader('Content-Type', 'image/png');
+            $resp->assertHeader('Cache-Control', 'max-age=86400, private');
+
+            $resp = $this->asAdmin()->get("/theme/{$themeFolderName}/file.css");
+            $resp->assertStreamedContent($css);
+            $resp->assertHeader('Content-Type', 'text/css; charset=UTF-8');
+            $resp->assertHeader('Cache-Control', 'max-age=86400, private');
         });
     }
 

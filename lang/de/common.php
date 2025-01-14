@@ -20,7 +20,7 @@ return [
     'description' => 'Beschreibung',
     'role' => 'Rolle',
     'cover_image' => 'Titelbild',
-    'cover_image_description' => 'Das Bild sollte eine Auflösung von ca. 440x250px haben.',
+    'cover_image_description' => 'Dieses Bild sollte ungefähr 440x250px groß sein, obwohl es flexibel skaliert und beschnitten wird, um in verschiedenen Szenarien in die Benutzeroberfläche zu passen, sodass die tatsächlichen Abmessungen für die Anzeige abweichen können.',
 
     // Actions
     'actions' => 'Aktionen',
@@ -52,6 +52,7 @@ return [
     'filter_clear' => 'Filter löschen',
     'download' => 'Herunterladen',
     'open_in_tab' => 'In neuem Tab öffnen',
+    'open' => 'Öffnen',
 
     // Sort Options
     'sort_options' => 'Sortieroptionen',
@@ -106,4 +107,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Datenschutzbestimmungen',
     'terms_of_service' => 'Allgemeine Geschäftsbedingungen',
+
+    // OpenSearch
+    'opensearch_description' => 'Search :appName',
 ];
